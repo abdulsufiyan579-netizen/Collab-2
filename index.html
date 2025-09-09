@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manga Artists Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #222;
+    }
+
+    .search-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      width: 50%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card h2 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      color: #444;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    .collection {
+      margin-top: 10px;
+    }
+
+    .collection li {
+      list-style-type: disc;
+      margin-left: 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      .search-bar input {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Manga Artists & Collections Dashboard</h1>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search artists or manga..." />
+  </div>
+
+  <div class="grid" id="artistGrid">
+    <!-- Artist Cards -->
+  </div>
+
+  <script>
+    const artists = [
+      {
+        name: "Eiichiro Oda",
+        description: "Creator of One Piece, one of the longest-running and most beloved manga series.",
+        works: ["One Piece"]
+      },
+      {
+        name: "Masashi Kishimoto",
+        description: "Known for creating the popular ninja-themed manga Naruto.",
+        works: ["Naruto", "Boruto (supervised)"]
+      },
+      {
+        name: "Akira Toriyama",
+        description: "Legendary mangaka who created Dragon Ball and helped shape modern shonen manga.",
+        works: ["Dragon Ball", "Dr. Slump"]
+      },
+      {
+        name: "Naoko Takeuchi",
+        description: "Famous for creating the magical girl series Sailor Moon.",
+        works: ["Sailor Moon", "Codename: Sailor V"]
+      },
+      {
+        name: "Tite Kubo",
+        description: "Renowned for the stylish supernatural series Bleach.",
+        works: ["Bleach", "Burn the Witch"]
+      },
+      {
+        name: "Kentaro Miura",
+        description: "Created the dark fantasy masterpiece Berserk.",
+        works: ["Berserk"]
+      },
+      {
+        name: "Hajime Isayama",
+        description: "Gained worldwide fame with the dystopian series Attack on Titan.",
+        works: ["Attack on Titan"]
+      },
+      {
+        name: "CLAMP",
+        description: "An all-female artist group known for their beautifully drawn manga.",
+        works: ["Cardcaptor Sakura", "X/1999", "Tsubasa: Reservoir Chronicle"]
+      }
+    ];
+
+    const artistGrid = document.getElementById("artistGrid");
+    const searchInput = document.getElementById("searchInput");
+
+    function displayArtists(data) {
+      artistGrid.innerHTML = "";
+
+      data.forEach(artist => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const title = document.createElement("h2");
+        title.textContent = artist.name;
+
+        const desc = document.createElement("p");
+        desc.textContent = artist.description;
+
+        const list = document.createElement("ul");
+        list.className = "collection";
+        artist.works.forEach(work => {
+          const li = document.createElement("li");
+          li.textContent = work;
+          list.appendChild(li);
+        });
+
+        card.appendChild(title);
+        card.appendChild(desc);
+        card.appendChild(list);
+        artistGrid.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+      const filtered = artists.filter(artist =>
+        artist.name.toLowerCase().includes(query) ||
+        artist.works.some(work => work.toLowerCase().includes(query))
+      );
+      displayArtists(filtered);
+    });
+
+    // Initial Load
+    displayArtists(artists);
+  </script>
+</body>
+</html>
